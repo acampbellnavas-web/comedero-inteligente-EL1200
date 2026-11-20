@@ -23,7 +23,7 @@ Alimentación	3V3 y GND
 
 ![Diagrama](docs/esquema.png)
 Simulación
-Proyecto en Wokwi: <enlace público>
+Proyecto en Wokwi: https://wokwi.com/projects/479733799379710977
 Código
 Ver la carpeta firmware/. Biblioteca usada: ESP32Servo.
 Evidencia
