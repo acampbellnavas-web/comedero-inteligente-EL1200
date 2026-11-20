@@ -1,4 +1,5 @@
 Comedero Inteligente para Gatos
+
 Proyecto del curso: 
 EL-1200 Introducción a la Electrónica 
 II semestre 2026.
