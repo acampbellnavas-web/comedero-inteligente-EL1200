@@ -20,13 +20,14 @@ Muchos comederos automáticos sirven comida sin importar si el gato está presen
 - El Monitor Serial (115200 baudios) muestra mensajes de estado: "Modo EN ESPERA", "Gato detectado", "Dispensación completada" y "Sistema reiniciado".
 
 **Conexiones del simulador**
-Componente	Pin del ESP32
-Sensor PIR	GPIO 2
-Servomotor	GPIO 13
-LED (con 220 Ω)	GPIO 5
-Alimentación	3V3 y GND
+| Componente | Pin del ESP32 |
+|-----------------|---------------|
+| Sensor PIR | GPIO 2 |
+| Servomotor | GPIO 13 |
+| LED (con 220 Ω) | GPIO 5 |
+| Alimentación | 3V3 y GND |
 
-![Diagrama](docs/esquema.png)
+![Diagrama](docs/esquema.jpeg)
 
 
 **Simulación**
