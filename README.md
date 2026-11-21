@@ -41,7 +41,7 @@ Ver la carpeta firmware/. Biblioteca usada: ESP32Servo.
 
 **Evidencia**
 
-![Simulación](media/simulacion.png)
+![Simulación](media/simulacion.webm)
 
 
 **Mejoras futuras**
