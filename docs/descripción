@@ -1,0 +1,25 @@
+## Lógica de control del Comedero Inteligente
+
+El sistema utiliza un microcontrolador **ESP32** para coordinar la lectura de un sensor de movimiento (**PIR HC-SR501**) y el control de dos actuadores (**servomotor** y **LED indicador**), aplicando estructuras condicionales `if/else` y una variable booleana de estado (`dispensado`) para evitar que se sirva comida de más si el gato permanece frente al plato.
+
+### 1. Variables, pines y estado inicial
+* **Pines:** el sensor PIR se lee como entrada digital (`INPUT`) en `GPIO 2`, el servomotor se controla mediante `ESP32Servo` en `GPIO 13` y el LED se configura como salida digital (`OUTPUT`) en `GPIO 5`.
+* **Ángulos del servomotor:** `anguloCerrado = 40°` mantiene la compuerta cerrada en reposo y `anguloDispensa = 140°` abre el paso para que caiga el alimento.
+* **Bandera de estado (`bool dispensado = false`):** indica si ya se realizó una dispensación durante la presencia actual del gato[cite: 1, 2, 3]. Al iniciar (`setup()`), el servo se posiciona en `40°`, el LED permanece apagado (`LOW`) y el sistema queda en espera (`dispensado = false`).
+
+### 2. Flujo de ejecución en `loop()`
+En cada ciclo, el ESP32 lee el sensor PIR (`digitalRead(pinPIR)`) y evalúa dos escenarios principales:
+
+1. **Detección de movimiento (`hayGato == HIGH`) y comida aún no servida (`dispensado == false`):**
+   * Se muestra en el Monitor Serial que se detectó al gato y que se inicia la dispensación.
+   * Se mueve el servomotor a `140°` para abrir la compuerta y se enciende el LED (`HIGH`) como indicador visual.
+   * Se espera `1500 ms` (`1.5 s`) para permitir que caiga la porción de alimento.
+   * Se regresa el servomotor a `40°` para cerrar la compuerta y se apaga el LED (`LOW`).
+   * Se actualiza `dispensado` a `true` (en el código del apunte conviene verificar que esté asignado con `dispensado = true;`) y se aplica una pausa de `10000 ms` (`10 s`) para evitar re-disparos inmediatos.
+
+2. **Gato presente pero ya se sirvió (`hayGato == HIGH` y `dispensado == true`):**
+   * Si el gato sigue activando el PIR tras la pausa, la condición `dispensado == false` no se cumple, por lo que el sistema **no vuelve a dispensar** comida extra.
+
+3. **Sin movimiento (`hayGato == LOW`) y dispensación previa (`dispensado == true`):**
+   * Cuando el gato se retira y el sensor deja de detectar movimiento, el sistema reinicia la bandera a `dispensado = false` con una breve pausa de `500 ms`.
+   * De este modo, el comedero queda listo para volver a dispensar únicamente cuando el gato se aleje y regrese en una nueva visita.
